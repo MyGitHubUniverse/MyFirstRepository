@@ -1,0 +1,23 @@
+artifactoryPath2="http://artifactory.com:8080/artifactory/mvn_ext_repo"
+
+resource_ip=( `find -type f | xargs ls | cut -c 2-` )
+output_filename=( `find -type f | awk -F/ '{print $NF}'`)
+
+#curl -H 'X-JFrog-Art-Api:AKCp2VpZJCTxcYRDgKEpu2vcYyT' -X DELETE "$artifactoryPath2"
+
+# do the loop
+
+	for i in "${!resource_ip[@]}"; do
+
+            echo " "
+    	    echo -e "The file being pushed is ${output_filename[$i]}"
+            echo -e "The path to the file is ${resource_ip[$i]}"
+        	
+            
+      #     echo $PWD${resource_ip[$i]}
+            
+            curl -H "X-JFrog-Art-Api:AKCp2Vpuu2vcYyT" -T $PWD${resource_ip[$i]} "http://artifactory.com:8080/artifactory/mvn_ext_repo${resource_ip[$i]}"
+             echo " "
+        done
+
+
