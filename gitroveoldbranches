@@ -1,0 +1,22 @@
+cd $[/myProject/tDrop/GitDeletionworkspace]/$[gitrepo]
+filename="/opt/ecloud/elcommar/workspace/GitDeletionFolder/$[gitrepo]/output"
+TotalMonths=12
+for ((i=$[months];i<=TotalMonths;i++)); do
+if [ -f $filename ]; then
+echo " output file exists and we are removing"
+rm -rf $filename 
+fi
+echo "---listing $i month old branches---"
+
+for branch in `git branch -r | grep -v HEAD`;do echo -e `git show --format="%ci %cr" $branch | head -n 1` \\t$branch; done | sort -r | grep "\<months ago\>" | grep -v "\<years\>" | awk '{print $4 " " $7}' | grep "\<2\>" | awk '{print $2}' | cut -c 8-1000 | egrep -v "(^\*|\<development\>|feature/test)"
+
+if [ -f $filename ]; then
+echo " output file exists and we are removing branches if any present"
+
+while read line
+do
+git ls-remote origin "$line"
+done < $filename
+fi
+
+done
