@@ -1,1 +1,34 @@
 Maven tricks
+
+Is it possible to release only a module rather than releasing the entire project.
+
+Thanks in advance.
+
+EDIT
+
+Parent pom
+
+<groupId>com.domain</groupId>
+<artifactId>project-parent</artifactId>
+<version>0.5.1-SNAPSHOT</version>
+
+<packaging>pom</packaging>
+
+<modules>
+    <module>library1</module>
+    <module>library2</module>
+    <module>library3</module>
+</modules>
+The module POMs are as under:
+
+<parent>
+    <groupId>com.domain></groupId>
+    <artifactId>project-parent</artifactId>
+    <version>0.5.1-SNAPSHOT</version>
+</parent>
+
+<artifactId>library1</artifactId>
+Now I just want to release the new version of library1 and not others
+
+Ans: 
+mvn release:prepare -pl library1
