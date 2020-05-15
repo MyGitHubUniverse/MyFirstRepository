@@ -395,4 +395,5 @@ Why karma.conf.ci.js? When using Karma, you should have two separate configurati
 
 Running Karma through Grunt or gulp: You may choose to run Karma directly through Grunt or through gulp instead, as part of
 
+https://antogeo.com/2017/12/23/test-js-and-angular-functions-in-a-maven-project-during-continuous-integration/
 
