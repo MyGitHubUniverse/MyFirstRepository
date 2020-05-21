@@ -21,3 +21,30 @@ output_filename=( `find -type f | awk -F/ '{print $NF}'`)
         done
 
 
+==================================
+artifactoryPath2="https://ss.jfrog.io/sos/Phoenix_dawn_mvn_ext"
+
+#cd -env/common/Pentaho/
+
+
+resource_ip=( `find -type f | xargs ls | cut -c 2-` )
+output_filename=( `find -type f | awk -F/ '{print $NF}'`)
+
+#curl -H 'X-JFrog-Art-Api:AKCp2VpZJCTxcYRDgKEp8aiZpcn11x8JX64AkH7aTMFdict92DxfnYURgKFpiZL8Ruu2vcYyT' -X DELETE "$artifactoryPath2"
+
+# do the loop
+
+        for i in "${!resource_ip[@]}"; do
+
+                            echo " "
+                                            echo -e "The file being pushed is ${output_filename[$i]}"
+                                                        echo -e "The path to the file is ${resource_ip[$i]}"
+
+
+                                                              #     echo $PWD${resource_ip[$i]}
+ARTIFACT_MD5_CHECKSUM=$(md5sum $PWD${resource_ip[$i]} | awk '{print $1}')
+ARTIFACT_SHA256_CHECKSUM=$(sha256sum $PWD${resource_ip[$i]} | awk '{ print $1 }')
+ARTIFACT_SHA1_CHECKSUM=$(sha1sum $PWD${resource_ip[$i]} | awk '{ print $1 }')
+
+curl -H "X-JFrog-Art-Api:AKCp5ekwC5D4F7UUm6GN27RU6gJKRjfrgTjAb2AhtuKedNpFwan6f1YJdxLfi79uUfZWHvvki" --header "X-Checksum-MD5:${ARTIFACT_MD5_CHECKSUM}"  --header "X-Checksum-Sha1:${ARTIFACT_SHA1_CHECKSUM}" --header "X-Checksum-Sha-256:${ARTIFACT_SHA256_CHECKSUM}"  -T $PWD${resource_ip[$i]} "https://comp.jfrog.io/sos/Phoenix_dawn_mvn_ext${resource_ip[$i]}"
+done
